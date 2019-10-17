@@ -4,7 +4,7 @@
 def TOOLS_NAMESPACE = "4zq6uj-andrea-williams-ocp201-tst-tools"
 def DEV_NAMESPACE = "4zq6uj-andrea-williams-ocp201-tst-dev"
 def PROD_NAMESPACE = "4zq6uj-andrea-williams-ocp201-tst-prod"
-def LOKI_SERVICE = "loki"
+def LOKI_SERVICE = "andrea-williams-loki"
 
 // Pipeline
 node {
