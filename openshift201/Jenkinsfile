@@ -1,0 +1,17 @@
+#!/usr/bin/env groovy
+
+//ENV vars
+def TOOLS_NAMESPACE = "OpenShift 201 andrea-williams (tools)"
+def DEV_NAMESPACE = "OpenShift 201 andrea-williams (dev)"
+def PROD_NAMESPACE = "OpenShift 201 andrea-williams (prod)"
+
+// Pipeline
+node {
+    stage ('Build Stage') {
+        dir ('simple_pipeline') {
+            checkout scm
+            sh "echo HELLO WORLD!"
+            sh "ls -lha openshift201/templates"
+        }
+    }
+}
