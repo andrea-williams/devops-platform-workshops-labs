@@ -1,0 +1,1117 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container andrea-williams-grafana; cpu, memory limit for container andrea-williams-grafana'
+      openshift.io/deployment-config.latest-version: "7"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.name: andrea-williams-grafana-7
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: "2019-10-16T21:30:08Z"
+    generateName: andrea-williams-grafana-7-
+    labels:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-7
+      deploymentconfig: andrea-williams-grafana
+    name: andrea-williams-grafana-7-fdnnc
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: andrea-williams-grafana-7
+      uid: 06844f49-f05c-11e9-916f-0050568379a2
+    resourceVersion: "1022760348"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/pods/andrea-williams-grafana-7-fdnnc
+    uid: 20b76fd3-f05c-11e9-916f-0050568379a2
+  spec:
+    containers:
+    - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+      imagePullPolicy: IfNotPresent
+      name: andrea-williams-grafana
+      ports:
+      - containerPort: 3000
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 250m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1006560000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/grafana/provisioning/dashboards
+        name: volume-3yymd
+      - mountPath: /etc/grafana/provisioning/datasources
+        name: volume-kiydb
+      - mountPath: /var/lib/grafana/dashboards/
+        name: volume-m5fwv
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-zhd4s
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-gg4k6
+    nodeName: ociopf-p-200.dmz
+    nodeSelector:
+      region: app
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1006560000
+      seLinuxOptions:
+        level: s0:c81,c40
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: andrea-williams-grafana-dashboard-providers
+      name: volume-3yymd
+    - configMap:
+        defaultMode: 420
+        name: andrea-williams-grafana-datasources
+      name: volume-kiydb
+    - configMap:
+        defaultMode: 420
+        name: andrea-williams-grafana-dashboards
+      name: volume-m5fwv
+    - name: default-token-zhd4s
+      secret:
+        defaultMode: 420
+        secretName: default-token-zhd4s
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2019-10-16T21:30:08Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2019-10-16T21:30:24Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2019-10-16T21:30:08Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://e6af79a7f4eb87211444e47c5afa465a420a16a8be996005e15b8c73871ff80c
+      image: sha256:6441ff99cd25bed4f3009d9d3bbd8342cd0626881301fddee457fac18b88de1d
+      imageID: docker-pullable://docker.io/grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+      lastState: {}
+      name: andrea-williams-grafana
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: "2019-10-16T21:30:23Z"
+    hostIP: 142.34.143.144
+    phase: Running
+    podIP: 172.51.4.33
+    qosClass: Burstable
+    startTime: "2019-10-16T21:30:08Z"
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-10-16 20:25:08 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-10-16 20:24:47 +0000 UTC
+      openshift.io/deployer-pod.name: andrea-williams-grafana-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"andrea-williams-grafana","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","selfLink":"/apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana","uid":"fe9dfb94-f052-11e9-916f-0050568379a2","resourceVersion":"1022628028","generation":2,"creationTimestamp":"2019-10-16T20:24:46Z","labels":{"app":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["andrea-williams-grafana"],"from":{"kind":"ImageStreamTag","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","name":"andrea-williams-grafana:6.2.0"},"lastTriggeredImage":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"andrea-williams-grafana","image":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":1,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2019-10-16T20:24:46Z","lastTransitionTime":"2019-10-16T20:24:46Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: "2019-10-16T20:24:47Z"
+    generation: 3
+    labels:
+      app: andrea-williams-grafana
+      openshift.io/deployment-config.name: andrea-williams-grafana
+    name: andrea-williams-grafana-1
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: andrea-williams-grafana
+      uid: fe9dfb94-f052-11e9-916f-0050568379a2
+    resourceVersion: "1022693530"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/replicationcontrollers/andrea-williams-grafana-1
+    uid: ff3660f1-f052-11e9-916f-0050568379a2
+  spec:
+    replicas: 0
+    selector:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-1
+      deploymentconfig: andrea-williams-grafana
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: andrea-williams-grafana
+          openshift.io/deployment.name: andrea-williams-grafana-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deployment: andrea-williams-grafana-1
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-10-16 20:57:29 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-10-16 20:56:55 +0000 UTC
+      openshift.io/deployer-pod.name: andrea-williams-grafana-2-deploy
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"andrea-williams-grafana","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","selfLink":"/apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana","uid":"fe9dfb94-f052-11e9-916f-0050568379a2","resourceVersion":"1022692370","generation":3,"creationTimestamp":"2019-10-16T20:24:46Z","labels":{"app":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["andrea-williams-grafana"],"from":{"kind":"ImageStreamTag","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","name":"andrea-williams-grafana:6.2.0"},"lastTriggeredImage":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"andrea-williams-grafana","image":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":2,"observedGeneration":2,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-10-16T20:25:07Z","lastTransitionTime":"2019-10-16T20:25:07Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-10-16T20:25:12Z","lastTransitionTime":"2019-10-16T20:24:56Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"andrea-williams-grafana-1\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: "2019-10-16T20:56:55Z"
+    generation: 3
+    labels:
+      app: andrea-williams-grafana
+      openshift.io/deployment-config.name: andrea-williams-grafana
+    name: andrea-williams-grafana-2
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: andrea-williams-grafana
+      uid: fe9dfb94-f052-11e9-916f-0050568379a2
+    resourceVersion: "1022707276"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/replicationcontrollers/andrea-williams-grafana-2
+    uid: 7ccde228-f057-11e9-916f-0050568379a2
+  spec:
+    replicas: 0
+    selector:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-2
+      deploymentconfig: andrea-williams-grafana
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "2"
+          openshift.io/deployment-config.name: andrea-williams-grafana
+          openshift.io/deployment.name: andrea-williams-grafana-2
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deployment: andrea-williams-grafana-2
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-10-16 21:04:17 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-10-16 21:03:51 +0000 UTC
+      openshift.io/deployer-pod.name: andrea-williams-grafana-3-deploy
+      openshift.io/deployment-config.latest-version: "3"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"andrea-williams-grafana","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","selfLink":"/apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana","uid":"fe9dfb94-f052-11e9-916f-0050568379a2","resourceVersion":"1022706377","generation":4,"creationTimestamp":"2019-10-16T20:24:46Z","labels":{"app":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["andrea-williams-grafana"],"from":{"kind":"ImageStreamTag","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","name":"andrea-williams-grafana:6.2.0"},"lastTriggeredImage":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"volume-3yymd","configMap":{"name":"andrea-williams-grafana-dashboard-providers","defaultMode":420}}],"containers":[{"name":"andrea-williams-grafana","image":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"volumeMounts":[{"name":"volume-3yymd","mountPath":"/etc/grafana/provisioning/dashboards"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":3,"observedGeneration":3,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-10-16T20:25:07Z","lastTransitionTime":"2019-10-16T20:25:07Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-10-16T20:57:30Z","lastTransitionTime":"2019-10-16T20:57:26Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"andrea-williams-grafana-2\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: "2019-10-16T21:03:51Z"
+    generation: 3
+    labels:
+      app: andrea-williams-grafana
+      openshift.io/deployment-config.name: andrea-williams-grafana
+    name: andrea-williams-grafana-3
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: andrea-williams-grafana
+      uid: fe9dfb94-f052-11e9-916f-0050568379a2
+    resourceVersion: "1022718170"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/replicationcontrollers/andrea-williams-grafana-3
+    uid: 74b22a45-f058-11e9-916f-0050568379a2
+  spec:
+    replicas: 0
+    selector:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-3
+      deploymentconfig: andrea-williams-grafana
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "3"
+          openshift.io/deployment-config.name: andrea-williams-grafana
+          openshift.io/deployment.name: andrea-williams-grafana-3
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deployment: andrea-williams-grafana-3
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-3yymd
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboard-providers
+          name: volume-3yymd
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-10-16 21:09:45 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-10-16 21:09:02 +0000 UTC
+      openshift.io/deployer-pod.name: andrea-williams-grafana-4-deploy
+      openshift.io/deployment-config.latest-version: "4"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"andrea-williams-grafana","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","selfLink":"/apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana","uid":"fe9dfb94-f052-11e9-916f-0050568379a2","resourceVersion":"1022716975","generation":5,"creationTimestamp":"2019-10-16T20:24:46Z","labels":{"app":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["andrea-williams-grafana"],"from":{"kind":"ImageStreamTag","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","name":"andrea-williams-grafana:6.2.0"},"lastTriggeredImage":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"volume-3yymd","configMap":{"name":"andrea-williams-grafana-dashboard-providers","defaultMode":420}},{"name":"volume-kiydb","configMap":{"name":"andrea-williams-grafana-datasources","defaultMode":420}}],"containers":[{"name":"andrea-williams-grafana","image":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"volumeMounts":[{"name":"volume-3yymd","mountPath":"/etc/grafana/provisioning/dashboards"},{"name":"volume-kiydb","mountPath":"/etc/grafana/provisioning/datasources"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":4,"observedGeneration":4,"replicas":1,"updatedReplicas":1,"availableReplicas":0,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Progressing","status":"True","lastUpdateTime":"2019-10-16T21:04:17Z","lastTransitionTime":"2019-10-16T21:04:14Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"andrea-williams-grafana-3\" successfully rolled out"},{"type":"Available","status":"False","lastUpdateTime":"2019-10-16T21:08:00Z","lastTransitionTime":"2019-10-16T21:08:00Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: "2019-10-16T21:09:02Z"
+    generation: 3
+    labels:
+      app: andrea-williams-grafana
+      openshift.io/deployment-config.name: andrea-williams-grafana
+    name: andrea-williams-grafana-4
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: andrea-williams-grafana
+      uid: fe9dfb94-f052-11e9-916f-0050568379a2
+    resourceVersion: "1022721200"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/replicationcontrollers/andrea-williams-grafana-4
+    uid: 2df7da13-f059-11e9-916f-0050568379a2
+  spec:
+    replicas: 0
+    selector:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-4
+      deploymentconfig: andrea-williams-grafana
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "4"
+          openshift.io/deployment-config.name: andrea-williams-grafana
+          openshift.io/deployment.name: andrea-williams-grafana-4
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deployment: andrea-williams-grafana-4
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-3yymd
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: volume-kiydb
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboard-providers
+          name: volume-3yymd
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-datasources
+          name: volume-kiydb
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-10-16 21:11:15 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-10-16 21:10:46 +0000 UTC
+      openshift.io/deployer-pod.name: andrea-williams-grafana-5-deploy
+      openshift.io/deployment-config.latest-version: "5"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"andrea-williams-grafana","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","selfLink":"/apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana","uid":"fe9dfb94-f052-11e9-916f-0050568379a2","resourceVersion":"1022720345","generation":6,"creationTimestamp":"2019-10-16T20:24:46Z","labels":{"app":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["andrea-williams-grafana"],"from":{"kind":"ImageStreamTag","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","name":"andrea-williams-grafana:6.2.0"},"lastTriggeredImage":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"volume-3yymd","configMap":{"name":"andrea-williams-grafana-dashboard-providers","defaultMode":420}},{"name":"volume-kiydb","configMap":{"name":"andrea-williams-grafana-datasources","defaultMode":420}},{"name":"volume-m5fwv","configMap":{"name":"andrea-williams-grafana-dashboards","defaultMode":420}}],"containers":[{"name":"andrea-williams-grafana","image":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"volumeMounts":[{"name":"volume-3yymd","mountPath":"/etc/grafana/provisioning/dashboards"},{"name":"volume-kiydb","mountPath":"/etc/grafana/provisioning/datasources"},{"name":"volume-m5fwv","mountPath":"/var/lib/grafana/dashboards/"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":5,"observedGeneration":5,"replicas":1,"updatedReplicas":1,"availableReplicas":0,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Progressing","status":"True","lastUpdateTime":"2019-10-16T21:09:52Z","lastTransitionTime":"2019-10-16T21:09:37Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"andrea-williams-grafana-4\" successfully rolled out"},{"type":"Available","status":"False","lastUpdateTime":"2019-10-16T21:10:07Z","lastTransitionTime":"2019-10-16T21:10:07Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: "2019-10-16T21:10:45Z"
+    generation: 3
+    labels:
+      app: andrea-williams-grafana
+      openshift.io/deployment-config.name: andrea-williams-grafana
+    name: andrea-williams-grafana-5
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: andrea-williams-grafana
+      uid: fe9dfb94-f052-11e9-916f-0050568379a2
+    resourceVersion: "1022724544"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/replicationcontrollers/andrea-williams-grafana-5
+    uid: 6b9aeb71-f059-11e9-916f-0050568379a2
+  spec:
+    replicas: 0
+    selector:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-5
+      deploymentconfig: andrea-williams-grafana
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "5"
+          openshift.io/deployment-config.name: andrea-williams-grafana
+          openshift.io/deployment.name: andrea-williams-grafana-5
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deployment: andrea-williams-grafana-5
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-3yymd
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: volume-kiydb
+          - mountPath: /var/lib/grafana/dashboards/
+            name: volume-m5fwv
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboard-providers
+          name: volume-3yymd
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-datasources
+          name: volume-kiydb
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboards
+          name: volume-m5fwv
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-10-16 21:12:54 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-10-16 21:12:29 +0000 UTC
+      openshift.io/deployer-pod.name: andrea-williams-grafana-6-deploy
+      openshift.io/deployment-config.latest-version: "6"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"andrea-williams-grafana","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","selfLink":"/apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana","uid":"fe9dfb94-f052-11e9-916f-0050568379a2","resourceVersion":"1022723798","generation":7,"creationTimestamp":"2019-10-16T20:24:46Z","labels":{"app":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["andrea-williams-grafana"],"from":{"kind":"ImageStreamTag","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","name":"andrea-williams-grafana:6.2.0"},"lastTriggeredImage":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"volume-3yymd","configMap":{"name":"andrea-williams-grafana-dashboard-providers","defaultMode":420}},{"name":"volume-kiydb","configMap":{"name":"andrea-williams-grafana-datasources","defaultMode":420}},{"name":"volume-m5fwv","configMap":{"name":"andrea-williams-grafana-dashboards","defaultMode":420}}],"containers":[{"name":"andrea-williams-grafana","image":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"volumeMounts":[{"name":"volume-3yymd","mountPath":"/etc/grafana/provisioning/dashboards"},{"name":"volume-kiydb","mountPath":"/etc/grafana/provisioning/datasources"},{"name":"volume-m5fwv","mountPath":"/var/lib/grafana/dashboards/"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":6,"observedGeneration":6,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-10-16T21:11:07Z","lastTransitionTime":"2019-10-16T21:11:07Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-10-16T21:11:19Z","lastTransitionTime":"2019-10-16T21:11:09Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"andrea-williams-grafana-5\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: "2019-10-16T21:12:29Z"
+    generation: 3
+    labels:
+      app: andrea-williams-grafana
+      openshift.io/deployment-config.name: andrea-williams-grafana
+    name: andrea-williams-grafana-6
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: andrea-williams-grafana
+      uid: fe9dfb94-f052-11e9-916f-0050568379a2
+    resourceVersion: "1022760369"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/replicationcontrollers/andrea-williams-grafana-6
+    uid: a93e23f3-f059-11e9-916f-0050568379a2
+  spec:
+    replicas: 0
+    selector:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-6
+      deploymentconfig: andrea-williams-grafana
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "6"
+          openshift.io/deployment-config.name: andrea-williams-grafana
+          openshift.io/deployment.name: andrea-williams-grafana-6
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deployment: andrea-williams-grafana-6
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-3yymd
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: volume-kiydb
+          - mountPath: /var/lib/grafana/dashboards/
+            name: volume-m5fwv
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboard-providers
+          name: volume-3yymd
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-datasources
+          name: volume-kiydb
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboards
+          name: volume-m5fwv
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-10-16 21:30:26 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-10-16 21:29:24 +0000 UTC
+      openshift.io/deployer-pod.name: andrea-williams-grafana-7-deploy
+      openshift.io/deployment-config.latest-version: "7"
+      openshift.io/deployment-config.name: andrea-williams-grafana
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"andrea-williams-grafana","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","selfLink":"/apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana","uid":"fe9dfb94-f052-11e9-916f-0050568379a2","resourceVersion":"1022758274","generation":8,"creationTimestamp":"2019-10-16T20:24:46Z","labels":{"app":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["andrea-williams-grafana"],"from":{"kind":"ImageStreamTag","namespace":"4zq6uj-andrea-williams-ocp201-tst-dev","name":"andrea-williams-grafana:6.2.0"},"lastTriggeredImage":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"andrea-williams-grafana","deploymentconfig":"andrea-williams-grafana"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"volume-3yymd","configMap":{"name":"andrea-williams-grafana-dashboard-providers","defaultMode":420}},{"name":"volume-kiydb","configMap":{"name":"andrea-williams-grafana-datasources","defaultMode":420}},{"name":"volume-m5fwv","configMap":{"name":"andrea-williams-grafana-dashboards","defaultMode":420}}],"containers":[{"name":"andrea-williams-grafana","image":"grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71","ports":[{"containerPort":3000,"protocol":"TCP"}],"resources":{},"volumeMounts":[{"name":"volume-3yymd","mountPath":"/etc/grafana/provisioning/dashboards"},{"name":"volume-kiydb","mountPath":"/etc/grafana/provisioning/datasources"},{"name":"volume-m5fwv","mountPath":"/var/lib/grafana/dashboards/"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":7,"observedGeneration":7,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-10-16T21:11:07Z","lastTransitionTime":"2019-10-16T21:11:07Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-10-16T21:12:56Z","lastTransitionTime":"2019-10-16T21:12:52Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"andrea-williams-grafana-6\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: "2019-10-16T21:29:24Z"
+    generation: 2
+    labels:
+      app: andrea-williams-grafana
+      openshift.io/deployment-config.name: andrea-williams-grafana
+    name: andrea-williams-grafana-7
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: andrea-williams-grafana
+      uid: fe9dfb94-f052-11e9-916f-0050568379a2
+    resourceVersion: "1022760597"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/replicationcontrollers/andrea-williams-grafana-7
+    uid: 06844f49-f05c-11e9-916f-0050568379a2
+  spec:
+    replicas: 1
+    selector:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-7
+      deploymentconfig: andrea-williams-grafana
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "7"
+          openshift.io/deployment-config.name: andrea-williams-grafana
+          openshift.io/deployment.name: andrea-williams-grafana-7
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deployment: andrea-williams-grafana-7
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-3yymd
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: volume-kiydb
+          - mountPath: /var/lib/grafana/dashboards/
+            name: volume-m5fwv
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboard-providers
+          name: volume-3yymd
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-datasources
+          name: volume-kiydb
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboards
+          name: volume-m5fwv
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-10-16T20:24:46Z"
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    resourceVersion: "1022627992"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/services/andrea-williams-grafana
+    uid: feaa6ab9-f052-11e9-916f-0050568379a2
+  spec:
+    clusterIP: 172.50.109.241
+    ports:
+    - name: 3000-tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: andrea-williams-grafana
+      deploymentconfig: andrea-williams-grafana
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-10-16T20:24:46Z"
+    generation: 8
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    resourceVersion: "1022760599"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/deploymentconfigs/andrea-williams-grafana
+    uid: fe9dfb94-f052-11e9-916f-0050568379a2
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: andrea-williams-grafana
+      deploymentconfig: andrea-williams-grafana
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: andrea-williams-grafana
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-3yymd
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: volume-kiydb
+          - mountPath: /var/lib/grafana/dashboards/
+            name: volume-m5fwv
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboard-providers
+          name: volume-3yymd
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-datasources
+          name: volume-kiydb
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboards
+          name: volume-m5fwv
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - andrea-williams-grafana
+        from:
+          kind: ImageStreamTag
+          name: andrea-williams-grafana:6.2.0
+          namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+        lastTriggeredImage: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-10-16T21:11:07Z"
+      lastUpdateTime: "2019-10-16T21:11:07Z"
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2019-10-16T21:30:29Z"
+      lastUpdateTime: "2019-10-16T21:30:29Z"
+      message: replication controller "andrea-williams-grafana-7" successfully rolled
+        out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: Manual
+      message: manual change
+    latestVersion: 7
+    observedGeneration: 8
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: "2019-10-16T20:24:46Z"
+    creationTimestamp: "2019-10-16T20:24:46Z"
+    generation: 2
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    resourceVersion: "1022628023"
+    selfLink: /apis/image.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/imagestreams/andrea-williams-grafana
+    uid: fe9434c4-f052-11e9-916f-0050568379a2
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: grafana/grafana:6.2.0
+      from:
+        kind: DockerImage
+        name: grafana/grafana:6.2.0
+      generation: 2
+      importPolicy: {}
+      name: 6.2.0
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/4zq6uj-andrea-williams-ocp201-tst-dev/andrea-williams-grafana
+    tags:
+    - items:
+      - created: "2019-10-16T20:24:46Z"
+        dockerImageReference: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+        generation: 2
+        image: sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+      tag: 6.2.0
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2019-10-16T20:26:25Z"
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    resourceVersion: "1022631509"
+    selfLink: /apis/route.openshift.io/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/routes/andrea-williams-grafana
+    uid: 39bc935d-f053-11e9-916f-0050568379a2
+  spec:
+    host: andrea-williams-grafana-4zq6uj-andrea-williams-ocp201-tst-dev.pathfinder.gov.bc.ca
+    port:
+      targetPort: 3000-tcp
+    to:
+      kind: Service
+      name: andrea-williams-grafana
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2019-10-16T20:26:25Z"
+        status: "True"
+        type: Admitted
+      host: andrea-williams-grafana-4zq6uj-andrea-williams-ocp201-tst-dev.pathfinder.gov.bc.ca
+      routerName: router
+      wildcardPolicy: None
+- apiVersion: v1
+  data:
+    dashboards.yml: "apiVersion: 1\n\nproviders:\n  # <string> provider name\n- name:
+      'default'\n  # <int> org id. will default to orgId 1 if not specified\n  orgId:
+      1\n  # <string, required> name of the dashboard folder. Required\n  folder:
+      ''\n  # <string> folder UID. will be automatically generated if not specified\n
+      \ folderUid: ''\n  # <string, required> provider type. Required\n  type: file\n
+      \ # <bool> disable dashboard deletion\n  disableDeletion: false\n  # <bool>
+      enable dashboard editing\n  editable: true\n  # <int> how often Grafana will
+      scan for changed dashboards\n  updateIntervalSeconds: 10  \n  options:\n    #
+      <string, required> path to dashboard files on disk. Required\n    path: /var/lib/grafana/dashboards"
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2019-10-16T21:03:14Z"
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana-dashboard-providers
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    resourceVersion: "1022710104"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/configmaps/andrea-williams-grafana-dashboard-providers
+    uid: 5e50b220-f058-11e9-916f-0050568379a2
+- apiVersion: v1
+  data:
+    simple_dashboard.json: |-
+      {
+        "annotations": {
+          "list": [
+            {
+              "builtIn": 1,
+              "datasource": "-- Grafana --",
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "type": "dashboard"
+            }
+          ]
+        },
+        "editable": true,
+        "gnetId": null,
+        "graphTooltip": 0,
+        "id": 1,
+        "links": [],
+        "panels": [
+          {
+            "cacheTimeout": null,
+            "colorBackground": false,
+            "colorValue": false,
+            "colors": [
+              "#299c46",
+              "rgba(237, 129, 40, 0.89)",
+              "#d44a3a"
+            ],
+            "format": "none",
+            "gauge": {
+              "maxValue": 100,
+              "minValue": 0,
+              "show": false,
+              "thresholdLabels": false,
+              "thresholdMarkers": true
+            },
+            "gridPos": {
+              "h": 9,
+              "w": 12,
+              "x": 0,
+              "y": 0
+            },
+            "id": 2,
+            "interval": null,
+            "links": [],
+            "mappingType": 1,
+            "mappingTypes": [
+              {
+                "name": "value to text",
+                "value": 1
+              },
+              {
+                "name": "range to text",
+                "value": 2
+              }
+            ],
+            "maxDataPoints": 100,
+            "nullPointMode": "connected",
+            "nullText": null,
+            "options": {},
+            "postfix": "",
+            "postfixFontSize": "50%",
+            "prefix": "",
+            "prefixFontSize": "50%",
+            "rangeMaps": [
+              {
+                "from": "null",
+                "text": "N/A",
+                "to": "null"
+              }
+            ],
+            "sparkline": {
+              "fillColor": "rgba(31, 118, 189, 0.18)",
+              "full": false,
+              "lineColor": "rgb(31, 120, 193)",
+              "show": false
+            },
+            "tableColumn": "",
+            "targets": [
+              {
+                "expr": "sum(up)",
+                "format": "time_series",
+                "intervalFactor": 1,
+                "refId": "A"
+              },
+              {
+                "expr": "",
+                "format": "time_series",
+                "intervalFactor": 1,
+                "refId": "B"
+              }
+            ],
+            "thresholds": "",
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Total Pods Watched (Prometheus)",
+            "type": "singlestat",
+            "valueFontSize": "80%",
+            "valueMaps": [
+              {
+                "op": "=",
+                "text": "N/A",
+                "value": "null"
+              }
+            ],
+            "valueName": "current"
+          }
+        ],
+        "schemaVersion": 18,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+          "list": []
+        },
+        "time": {
+          "from": "now-6h",
+          "to": "now"
+        },
+        "timepicker": {
+          "refresh_intervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+          ],
+          "time_options": [
+            "5m",
+            "15m",
+            "1h",
+            "6h",
+            "12h",
+            "24h",
+            "2d",
+            "7d",
+            "30d"
+          ]
+        },
+        "timezone": "",
+        "title": "New dashboard",
+        "uid": "iaHbjpoWz",
+        "version": 1
+      }
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2019-10-16T21:10:27Z"
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana-dashboards
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    resourceVersion: "1022721639"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/configmaps/andrea-williams-grafana-dashboards
+    uid: 60c576e2-f059-11e9-916f-0050568379a2
+- apiVersion: v1
+  data:
+    datasources.yml: "  # config file version\n  apiVersion: 1\n\n  datasources:\n
+      \ - name: Prometheus\n    type: prometheus\n    access: proxy\n    orgId: 1\n
+      \   url: http://andrea-williams-prometheus-andrea-williams-prometheus:80  \n
+      \   isDefault: true\n    version: 1\n    editable: true\n  - name: Loki\n    type:
+      loki\n    orgId: 1\n    access: proxy\n    url: http://andrea-williams-loki:3100
+      \ \n    jsonData:\n        maxLines: 1000"
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2019-10-16T21:07:44Z"
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana-datasources
+    namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+    resourceVersion: "1022757886"
+    selfLink: /api/v1/namespaces/4zq6uj-andrea-williams-ocp201-tst-dev/configmaps/andrea-williams-grafana-datasources
+    uid: ff6ada66-f058-11e9-916f-0050568379a2
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

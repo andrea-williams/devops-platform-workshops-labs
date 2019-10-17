@@ -1,0 +1,141 @@
+---
+# Source: loki/templates/secret.yaml
+apiVersion: v1
+kind: Template
+labels:
+  template: loki-template
+message: |-
+  The following service(s) have been created in your project: ${LOKI_SERVICE_NAME}.
+  For more information about using this template, including OpenShift considerations, contact the rocketchat community.
+metadata:
+  annotations:
+    description: |-
+      Loki Template for use in OpenShift 201 lab without persistent storage. 
+
+      WARNING: Any configuration stored will be lost upon pod destruction. ConfigMaps should be used for codified configuration. 
+    openshift.io/display-name: loki-openshift201
+    tags: monitoring,loki
+  name: loki-template
+objects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${LOKI_SERVICE_NAME}
+    labels:
+      app: ${LOKI_SERVICE_NAME}
+      chart: loki-0.16.0
+      heritage: Tiller
+  spec:
+    type: ClusterIP
+    ports:
+      - port: 3100
+        protocol: TCP
+        name: http-metrics
+        targetPort: http-metrics
+    selector:
+      app: ${LOKI_SERVICE_NAME}
+      deploymentConfig: ${LOKI_SERVICE_NAME}
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    name: ${LOKI_SERVICE_NAME}
+    labels:
+      app: ${LOKI_SERVICE_NAME}
+      chart: loki-0.16.0
+      heritage: Tiller
+    annotations:
+      {}    
+  spec:
+    podManagementPolicy: OrderedReady
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ${LOKI_SERVICE_NAME}
+    serviceName: ${LOKI_SERVICE_NAME}
+    updateStrategy:
+      type: RollingUpdate  
+    template:
+      metadata:
+        labels:
+          app: ${LOKI_SERVICE_NAME}
+          name: ${LOKI_SERVICE_NAME}
+        annotations:
+          prometheus.io/port: http-metrics
+          prometheus.io/scrape: "true"   
+      spec:
+        serviceAccountName: default
+        securityContext:
+          fsGroup: 10001
+          runAsGroup: 10001
+          runAsNonRoot: true
+          runAsUser: 10001    
+        containers:
+          - name: ${LOKI_SERVICE_NAME}
+            image: "grafana/loki:v0.3.0"
+            imagePullPolicy: IfNotPresent
+            args:
+              - "-config.file=/etc/loki/loki.yaml"
+            volumeMounts:
+              - name: config
+                mountPath: /etc/loki
+              - name: storage
+                mountPath: "/data"
+                subPath: 
+            ports:
+              - name: http-metrics
+                containerPort: 3100
+                protocol: TCP
+            livenessProbe:
+              httpGet:
+                path: /ready
+                port: http-metrics
+              initialDelaySeconds: 45
+            readinessProbe:
+              httpGet:
+                path: /ready
+                port: http-metrics
+              initialDelaySeconds: 45
+            resources:
+              {}
+            securityContext:
+              readOnlyRootFilesystem: true
+            env:
+        nodeSelector:
+          {}
+        affinity:
+          {}
+        tolerations:
+          []
+        terminationGracePeriodSeconds: 30
+        volumes:
+          - name: config
+            secret:
+              secretName: ${LOKI_SECRET_NAME}
+          - name: storage
+            emptyDir: {}
+
+parameters:
+- description: Maximum amount of memory the container can use.
+  displayName: Memory Limit
+  name: MEMORY_LIMIT
+  required: true
+  value: 512Mi
+- description: The namespace this templated is deployed into.
+  displayName: Namespace
+  name: NAMESPACE
+  value: openshift
+- description: The name of the OpenShift Service exposed for the database.
+  displayName: Loki Service Name
+  name: LOKI_SERVICE_NAME
+  required: true
+  value: loki
+- description: The name of the Prometheus service to connect to.
+  displayName: Prometheus Service Name
+  name: PROMETHEUS_SERVICE_NAME
+  required: true
+  value: prometheus
+- description: Default route subdomain
+  displayName: Route subdomain
+  name: ROUTE_SUBDOMAIN
+  required: true
+  value: pathfinder.gov.bc.ca

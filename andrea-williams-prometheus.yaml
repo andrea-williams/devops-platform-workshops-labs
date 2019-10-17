@@ -1,0 +1,345 @@
+---
+# Source: prometheus/templates/server-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    component: "andrea-williams-prometheus"
+    app: prometheus
+    release: andrea-williams-prometheus
+    chart: prometheus-9.1.2
+    heritage: Tiller
+  name: andrea-williams-prometheus-andrea-williams-prometheus
+data:
+  alerts: |
+    {}
+    
+  prometheus.yml: |
+    global:
+      evaluation_interval: 1m
+      scrape_interval: 1m
+      scrape_timeout: 10s
+    rule_files:
+    - /etc/config/rules
+    - /etc/config/alerts
+    scrape_configs:
+    - job_name: prometheus
+      static_configs:
+      - targets:
+        - localhost:9090
+    - job_name: kubernetes-pods
+      kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - 4zq6uj-andrea-williams-ocp201-tst-dev 
+      relabel_configs:
+      - action: keep
+        regex: true
+        source_labels:
+        - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+      - action: replace
+        regex: (.+)
+        source_labels:
+        - __meta_kubernetes_pod_annotation_prometheus_io_path
+        target_label: __metrics_path__
+      - action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        source_labels:
+        - __address__
+        - __meta_kubernetes_pod_annotation_prometheus_io_port
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - action: replace
+        source_labels:
+        - __meta_kubernetes_namespace
+        target_label: kubernetes_namespace
+      - action: replace
+        source_labels:
+        - __meta_kubernetes_pod_name
+        target_label: kubernetes_pod_name
+    
+  rules: |
+    {}
+    
+---
+# Source: prometheus/templates/server-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    component: "andrea-williams-prometheus"
+    app: prometheus
+    release: andrea-williams-prometheus
+    chart: prometheus-9.1.2
+    heritage: Tiller
+  name: andrea-williams-prometheus-andrea-williams-prometheus
+spec:
+  accessModes:
+    - ReadWriteOnce
+    
+  resources:
+    requests:
+      storage: "1Gi"
+---
+# Source: prometheus/templates/server-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: "andrea-williams-prometheus"
+    app: prometheus
+    release: andrea-williams-prometheus
+    chart: prometheus-9.1.2
+    heritage: Tiller
+  name: andrea-williams-prometheus-andrea-williams-prometheus
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 9090
+  selector:
+    component: "andrea-williams-prometheus"
+    app: prometheus
+    release: andrea-williams-prometheus
+  type: "ClusterIP"
+---
+# Source: prometheus/templates/server-deployment.yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    component: "andrea-williams-prometheus"
+    app: prometheus
+    release: andrea-williams-prometheus
+    chart: prometheus-9.1.2
+    heritage: Tiller
+  name: andrea-williams-prometheus-andrea-williams-prometheus
+spec:
+  selector:
+    matchLabels:
+      component: "andrea-williams-prometheus"
+      app: prometheus
+      release: andrea-williams-prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: "andrea-williams-prometheus"
+        app: prometheus
+        release: andrea-williams-prometheus
+        chart: prometheus-9.1.2
+        heritage: Tiller
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: prometheus-andrea-williams-prometheus-configmap-reload
+          image: "jimmidyson/configmap-reload:v0.2.2"
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - --volume-dir=/etc/config
+            - --webhook-url=http://127.0.0.1:9090/-/reload
+          resources:
+            {}
+            
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+              readOnly: true
+
+        - name: prometheus-andrea-williams-prometheus
+          image: "prom/prometheus:v2.11.1"
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - --storage.tsdb.retention.time=15d
+            - --config.file=/etc/config/prometheus.yml
+            - --storage.tsdb.path=/data
+            - --web.console.libraries=/etc/prometheus/console_libraries
+            - --web.console.templates=/etc/prometheus/consoles
+            - --web.enable-lifecycle
+          ports:
+            - containerPort: 9090
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 9090
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9090
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          resources:
+            {}
+            
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: storage-volume
+              mountPath: /data
+              subPath: ""
+        
+      terminationGracePeriodSeconds: 300
+      volumes:
+        - name: config-volume
+          configMap:
+            name: andrea-williams-prometheus-andrea-williams-prometheus
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: andrea-williams-prometheus-andrea-williams-prometheus
+---
+# Source: prometheus/templates/alertmanager-clusterrole.yaml
+
+
+---
+# Source: prometheus/templates/alertmanager-clusterrolebinding.yaml
+
+
+---
+# Source: prometheus/templates/alertmanager-configmap.yaml
+
+---
+# Source: prometheus/templates/alertmanager-deployment.yaml
+
+
+---
+# Source: prometheus/templates/alertmanager-ingress.yaml
+
+---
+# Source: prometheus/templates/alertmanager-networkpolicy.yaml
+
+---
+# Source: prometheus/templates/alertmanager-podsecuritypolicy.yaml
+
+
+---
+# Source: prometheus/templates/alertmanager-pvc.yaml
+
+---
+# Source: prometheus/templates/alertmanager-service-headless.yaml
+
+
+---
+# Source: prometheus/templates/alertmanager-service.yaml
+
+
+---
+# Source: prometheus/templates/alertmanager-serviceaccount.yaml
+
+---
+# Source: prometheus/templates/alertmanager-statefulset.yaml
+
+
+---
+# Source: prometheus/templates/kube-state-metrics-clusterrole.yaml
+
+
+---
+# Source: prometheus/templates/kube-state-metrics-clusterrolebinding.yaml
+
+---
+# Source: prometheus/templates/kube-state-metrics-deployment.yaml
+
+
+---
+# Source: prometheus/templates/kube-state-metrics-networkpolicy.yaml
+
+---
+# Source: prometheus/templates/kube-state-metrics-podsecuritypolicy.yaml
+
+
+---
+# Source: prometheus/templates/kube-state-metrics-serviceaccount.yaml
+
+---
+# Source: prometheus/templates/kube-state-metrics-svc.yaml
+
+
+---
+# Source: prometheus/templates/node-exporter-daemonset.yaml
+
+---
+# Source: prometheus/templates/node-exporter-podsecuritypolicy.yaml
+
+
+---
+# Source: prometheus/templates/node-exporter-role.yaml
+
+
+---
+# Source: prometheus/templates/node-exporter-rolebinding.yaml
+
+
+---
+# Source: prometheus/templates/node-exporter-service.yaml
+
+---
+# Source: prometheus/templates/node-exporter-serviceaccount.yaml
+
+---
+# Source: prometheus/templates/pushgateway-clusterrole.yaml
+
+
+---
+# Source: prometheus/templates/pushgateway-clusterrolebinding.yaml
+
+
+---
+# Source: prometheus/templates/pushgateway-deployment.yaml
+
+
+---
+# Source: prometheus/templates/pushgateway-ingress.yaml
+
+---
+# Source: prometheus/templates/pushgateway-networkpolicy.yaml
+
+---
+# Source: prometheus/templates/pushgateway-podsecuritypolicy.yaml
+
+
+---
+# Source: prometheus/templates/pushgateway-pvc.yaml
+
+---
+# Source: prometheus/templates/pushgateway-service.yaml
+
+
+---
+# Source: prometheus/templates/pushgateway-serviceaccount.yaml
+
+---
+# Source: prometheus/templates/server-clusterrole.yaml
+
+
+---
+# Source: prometheus/templates/server-clusterrolebinding.yaml
+
+
+---
+# Source: prometheus/templates/server-ingress.yaml
+
+---
+# Source: prometheus/templates/server-networkpolicy.yaml
+
+
+---
+# Source: prometheus/templates/server-podsecuritypolicy.yaml
+
+
+---
+# Source: prometheus/templates/server-service-headless.yaml
+
+---
+# Source: prometheus/templates/server-serviceaccount.yaml
+
+
+---
+# Source: prometheus/templates/server-statefulset.yaml
+
+
