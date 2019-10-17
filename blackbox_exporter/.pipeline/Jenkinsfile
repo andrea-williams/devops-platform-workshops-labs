@@ -71,5 +71,24 @@ node {
                                 }
                 }
              }
+
+             stage('Promote to PROD') {
+                openshift.withCluster() {
+                    openshift.tag("blackboxexporter:latest", "blackboxexporter:prod")
+                }
+             }
+            stage('Create PROD') {
+              openshift.withCluster() {
+                openshift.withProject("${PROD_NAMESPACE}") {
+                                def blackboxdcSelector = openshift.selector("dc", "blackboxexporter")
+                                try {
+                                    blackboxdcSelector.object()
+                                    deploymentconfig = blackboxdcSelector.related( "deploymentconfig" )
+                                } catch (Throwable t) {
+                                    na = openshift.newApp("${TOOLS_NAMESPACE}/blackboxexporter:dev", "--name=blackboxexporter").narrow('svc').expose()
+
+                                }
+                }
+             }
           }
     }
