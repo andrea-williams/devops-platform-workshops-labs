@@ -1,0 +1,393 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    generateName: andrea-williams-grafana-7-
+    labels:
+      app: andrea-williams-grafana
+      deployment: andrea-williams-grafana-7
+      deploymentconfig: andrea-williams-grafana
+    name: andrea-williams-grafana-7-fdnnc
+  spec:
+    containers:
+    - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+      imagePullPolicy: IfNotPresent
+      name: andrea-williams-grafana
+      ports:
+      - containerPort: 3000
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 250m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1006560000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/grafana/provisioning/dashboards
+        name: volume-3yymd
+      - mountPath: /etc/grafana/provisioning/datasources
+        name: volume-kiydb
+      - mountPath: /var/lib/grafana/dashboards/
+        name: volume-m5fwv
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-zhd4s
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-gg4k6
+    nodeName: ociopf-p-200.dmz
+    nodeSelector:
+      region: app
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1006560000
+      seLinuxOptions:
+        level: s0:c81,c40
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: andrea-williams-grafana-dashboard-providers
+      name: volume-3yymd
+    - configMap:
+        defaultMode: 420
+        name: andrea-williams-grafana-datasources
+      name: volume-kiydb
+    - configMap:
+        defaultMode: 420
+        name: andrea-williams-grafana-dashboards
+      name: volume-m5fwv
+    - name: default-token-zhd4s
+      secret:
+        defaultMode: 420
+        secretName: default-token-zhd4s
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+  spec:
+    ports:
+    - name: 3000-tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: andrea-williams-grafana
+      deploymentconfig: andrea-williams-grafana
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: andrea-williams-grafana
+      deploymentconfig: andrea-williams-grafana
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: andrea-williams-grafana
+          deploymentconfig: andrea-williams-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          name: andrea-williams-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-3yymd
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: volume-kiydb
+          - mountPath: /var/lib/grafana/dashboards/
+            name: volume-m5fwv
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboard-providers
+          name: volume-3yymd
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-datasources
+          name: volume-kiydb
+        - configMap:
+            defaultMode: 420
+            name: andrea-williams-grafana-dashboards
+          name: volume-m5fwv
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - andrea-williams-grafana
+        from:
+          kind: ImageStreamTag
+          name: andrea-williams-grafana:6.2.0
+      type: ImageChange
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - from:
+        kind: DockerImage
+        name: grafana/grafana:6.2.0
+      importPolicy: {}
+      name: 6.2.0
+      referencePolicy:
+        type: Source
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana
+  spec:
+    host: andrea-williams-grafana-4zq6uj-andrea-williams-ocp201-tst-dev.pathfinder.gov.bc.ca
+    port:
+      targetPort: 3000-tcp
+    to:
+      kind: Service
+      name: andrea-williams-grafana
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  data:
+    dashboards.yml: "apiVersion: 1\n\nproviders:\n  # <string> provider name\n- name:
+      'default'\n  # <int> org id. will default to orgId 1 if not specified\n  orgId:
+      1\n  # <string, required> name of the dashboard folder. Required\n  folder:
+      ''\n  # <string> folder UID. will be automatically generated if not specified\n
+      \ folderUid: ''\n  # <string, required> provider type. Required\n  type: file\n
+      \ # <bool> disable dashboard deletion\n  disableDeletion: false\n  # <bool>
+      enable dashboard editing\n  editable: true\n  # <int> how often Grafana will
+      scan for changed dashboards\n  updateIntervalSeconds: 10  \n  options:\n    #
+      <string, required> path to dashboard files on disk. Required\n    path: /var/lib/grafana/dashboards"
+  kind: ConfigMap
+  metadata:
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana-dashboard-providers
+- apiVersion: v1
+  data:
+    simple_dashboard.json: |-
+      {
+        "annotations": {
+          "list": [
+            {
+              "builtIn": 1,
+              "datasource": "-- Grafana --",
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "type": "dashboard"
+            }
+          ]
+        },
+        "editable": true,
+        "gnetId": null,
+        "graphTooltip": 0,
+        "id": 1,
+        "links": [],
+        "panels": [
+          {
+            "cacheTimeout": null,
+            "colorBackground": false,
+            "colorValue": false,
+            "colors": [
+              "#299c46",
+              "rgba(237, 129, 40, 0.89)",
+              "#d44a3a"
+            ],
+            "format": "none",
+            "gauge": {
+              "maxValue": 100,
+              "minValue": 0,
+              "show": false,
+              "thresholdLabels": false,
+              "thresholdMarkers": true
+            },
+            "gridPos": {
+              "h": 9,
+              "w": 12,
+              "x": 0,
+              "y": 0
+            },
+            "id": 2,
+            "interval": null,
+            "links": [],
+            "mappingType": 1,
+            "mappingTypes": [
+              {
+                "name": "value to text",
+                "value": 1
+              },
+              {
+                "name": "range to text",
+                "value": 2
+              }
+            ],
+            "maxDataPoints": 100,
+            "nullPointMode": "connected",
+            "nullText": null,
+            "options": {},
+            "postfix": "",
+            "postfixFontSize": "50%",
+            "prefix": "",
+            "prefixFontSize": "50%",
+            "rangeMaps": [
+              {
+                "from": "null",
+                "text": "N/A",
+                "to": "null"
+              }
+            ],
+            "sparkline": {
+              "fillColor": "rgba(31, 118, 189, 0.18)",
+              "full": false,
+              "lineColor": "rgb(31, 120, 193)",
+              "show": false
+            },
+            "tableColumn": "",
+            "targets": [
+              {
+                "expr": "sum(up)",
+                "format": "time_series",
+                "intervalFactor": 1,
+                "refId": "A"
+              },
+              {
+                "expr": "",
+                "format": "time_series",
+                "intervalFactor": 1,
+                "refId": "B"
+              }
+            ],
+            "thresholds": "",
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Total Pods Watched (Prometheus)",
+            "type": "singlestat",
+            "valueFontSize": "80%",
+            "valueMaps": [
+              {
+                "op": "=",
+                "text": "N/A",
+                "value": "null"
+              }
+            ],
+            "valueName": "current"
+          }
+        ],
+        "schemaVersion": 18,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+          "list": []
+        },
+        "time": {
+          "from": "now-6h",
+          "to": "now"
+        },
+        "timepicker": {
+          "refresh_intervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+          ],
+          "time_options": [
+            "5m",
+            "15m",
+            "1h",
+            "6h",
+            "12h",
+            "24h",
+            "2d",
+            "7d",
+            "30d"
+          ]
+        },
+        "timezone": "",
+        "title": "New dashboard",
+        "uid": "iaHbjpoWz",
+        "version": 1
+      }
+  kind: ConfigMap
+  metadata:
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana-dashboards
+- apiVersion: v1
+  data:
+    datasources.yml: "  # config file version\n  apiVersion: 1\n\n  datasources:\n
+      \ - name: Prometheus\n    type: prometheus\n    access: proxy\n    orgId: 1\n
+      \   url: http://andrea-williams-prometheus-andrea-williams-prometheus:80  \n
+      \   isDefault: true\n    version: 1\n    editable: true\n  - name: Loki\n    type:
+      loki\n    orgId: 1\n    access: proxy\n    url: http://andrea-williams-loki:3100
+      \ \n    jsonData:\n        maxLines: 1000"
+  kind: ConfigMap
+  metadata:
+    labels:
+      app: andrea-williams-grafana
+    name: andrea-williams-grafana-datasources
+kind: List

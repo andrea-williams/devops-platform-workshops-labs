@@ -1,0 +1,191 @@
+---
+# Source: loki/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: andrea-williams-loki
+  namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+  labels:
+    app: loki
+    chart: loki-0.16.0
+    release: andrea-williams-loki
+    heritage: Tiller
+data:
+  loki.yaml: YXV0aF9lbmFibGVkOiBmYWxzZQpjaHVua19zdG9yZV9jb25maWc6CiAgbWF4X2xvb2tfYmFja19wZXJpb2Q6IDAKaW5nZXN0ZXI6CiAgY2h1bmtfYmxvY2tfc2l6ZTogMjYyMTQ0CiAgY2h1bmtfaWRsZV9wZXJpb2Q6IDNtCiAgY2h1bmtfcmV0YWluX3BlcmlvZDogMW0KICBsaWZlY3ljbGVyOgogICAgcmluZzoKICAgICAga3ZzdG9yZToKICAgICAgICBzdG9yZTogaW5tZW1vcnkKICAgICAgcmVwbGljYXRpb25fZmFjdG9yOiAxCmxpbWl0c19jb25maWc6CiAgZW5mb3JjZV9tZXRyaWNfbmFtZTogZmFsc2UKICByZWplY3Rfb2xkX3NhbXBsZXM6IHRydWUKICByZWplY3Rfb2xkX3NhbXBsZXNfbWF4X2FnZTogMTY4aApzY2hlbWFfY29uZmlnOgogIGNvbmZpZ3M6CiAgLSBmcm9tOiAiMjAxOC0wNC0xNSIKICAgIGluZGV4OgogICAgICBwZXJpb2Q6IDE2OGgKICAgICAgcHJlZml4OiBpbmRleF8KICAgIG9iamVjdF9zdG9yZTogZmlsZXN5c3RlbQogICAgc2NoZW1hOiB2OQogICAgc3RvcmU6IGJvbHRkYgpzZXJ2ZXI6CiAgaHR0cF9saXN0ZW5fcG9ydDogMzEwMApzdG9yYWdlX2NvbmZpZzoKICBib2x0ZGI6CiAgICBkaXJlY3Rvcnk6IC9kYXRhL2xva2kvaW5kZXgKICBmaWxlc3lzdGVtOgogICAgZGlyZWN0b3J5OiAvZGF0YS9sb2tpL2NodW5rcwp0YWJsZV9tYW5hZ2VyOgogIHJldGVudGlvbl9kZWxldGVzX2VuYWJsZWQ6IGZhbHNlCiAgcmV0ZW50aW9uX3BlcmlvZDogMAo=
+
+---
+# Source: loki/templates/service-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: andrea-williams-loki-headless
+  namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+  labels:
+    app: loki
+    chart: loki-0.16.0
+    release: andrea-williams-loki
+    heritage: Tiller
+spec:
+  clusterIP: None
+  ports:
+    - port: 3100
+      protocol: TCP
+      name: http-metrics
+      targetPort: http-metrics
+  selector:
+    app: loki
+    release: andrea-williams-loki
+
+---
+# Source: loki/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: andrea-williams-loki
+  namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+  labels:
+    app: loki
+    chart: loki-0.16.0
+    release: andrea-williams-loki
+    heritage: Tiller
+  annotations:
+    {}
+    
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3100
+      protocol: TCP
+      name: http-metrics
+      targetPort: http-metrics
+  selector:
+    app: loki
+    release: andrea-williams-loki
+
+---
+# Source: loki/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: andrea-williams-loki
+  namespace: 4zq6uj-andrea-williams-ocp201-tst-dev
+  labels:
+    app: loki
+    chart: loki-0.16.0
+    release: andrea-williams-loki
+    heritage: Tiller
+  annotations:
+    {}
+    
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loki
+      release: andrea-williams-loki
+  serviceName: andrea-williams-loki-headless
+  updateStrategy:
+    type: RollingUpdate
+    
+  template:
+    metadata:
+      labels:
+        app: loki
+        name: loki
+        release: andrea-williams-loki
+      annotations:
+        checksum/config: 7be225d3fe9e88cbf0ee6371c6cfb6ed7e7ff6233511d8b07d1176797dd6263b
+        prometheus.io/port: http-metrics
+        prometheus.io/scrape: "true"
+        
+    spec:
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 10001
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001
+        
+      containers:
+        - name: loki
+          image: "grafana/loki:v0.3.0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-config.file=/etc/loki/loki.yaml"
+          volumeMounts:
+            - name: config
+              mountPath: /etc/loki
+            - name: storage
+              mountPath: "/data"
+              subPath: 
+          ports:
+            - name: http-metrics
+              containerPort: 3100
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /ready
+              port: http-metrics
+            initialDelaySeconds: 45
+            
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http-metrics
+            initialDelaySeconds: 45
+            
+          resources:
+            {}
+            
+          securityContext:
+            readOnlyRootFilesystem: true
+          env:
+      nodeSelector:
+        {}
+        
+      affinity:
+        {}
+        
+      tolerations:
+        []
+        
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: config
+          secret:
+            secretName: andrea-williams-loki
+        - name: storage
+          emptyDir: {}
+
+
+---
+# Source: loki/templates/networkpolicy.yaml
+
+---
+# Source: loki/templates/pdb.yaml
+
+---
+# Source: loki/templates/podsecuritypolicy.yaml
+
+
+
+---
+# Source: loki/templates/role.yaml
+
+
+
+---
+# Source: loki/templates/rolebinding.yaml
+
+
+
+---
+# Source: loki/templates/serviceaccount.yaml
+
+
+
+---
+# Source: loki/templates/servicemonitor.yaml
+
+
